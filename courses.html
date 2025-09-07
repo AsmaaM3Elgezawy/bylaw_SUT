@@ -429,7 +429,7 @@
           },
         };
 
-        const it_courses = {
+        const CS_courses = {
           //Sem1
           IT111: {
             name: "Electronics",
@@ -775,7 +775,7 @@
             showSelected();
           });
         }
-        populateCourses(it_courses);
+        populateCourses(CS_courses);
 
         var selected = [];
 
@@ -886,9 +886,9 @@
 
           ev.target.classList.add("active");
 
-          if (ev.target.id === "it") {
+          if (ev.target.id === "CS") {
             console.log("it selected");
-            populateCourses(it_courses);
+            populateCourses(CS_courses);
           } else if (ev.target.id === "ai") {
             console.log("ai selected");
             populateCourses(ai_courses);
@@ -935,5 +935,6 @@
 </html>
 
  
+
 
 
