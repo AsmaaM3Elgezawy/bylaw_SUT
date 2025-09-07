@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: sans;
+      }
+
+      .course {
+        border: 1px solid darkgray;
+        text-align: center;
+        padding: 5px;
+        transition-property: background-color;
+        transition-duration: 1s;
+        cursor: pointer;
+      }
+
+      .course:hover {
+        opacity: 0.8;
+        /*text-shadow: 0px 0px 3px #FFF;*/
+      }
+
+      .header {
+        text-align: center;
+        border: 1px solid black;
+        background-color: #777;
+        color: white;
+        font-weight: bold;
+        text-shadow: 0px 1px 2px black;
+      }
+
+      .prev {
+        background-color: #ccbbff;
+      }
+
+      .direct {
+        background-color: lightBlue;
+      }
+
+      .selected {
+        background-color: #a0dda0;
+      }
+
+      .next {
+        background-color: #ffeeaa;
+      }
+
+      h2 {
+        text-align: center;
+        font-family: serif;
+      }
+
+      input {
+        margin-top: 7px;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        line-height: 24px;
+        margin-bottom: 10px;
+        width: 48px;
+        height: 24px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        border-radius: 24px;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(24px);
+      }
+
+      #div_sel {
+        color: dark-gray;
+        margin: 10px;
+      }
+
+      .program {
+        cursor: pointer;
+        font-size: xx-large;
+        color: lightgray;
+      }
+      .program.active {
+        color: red;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(function () {
+        let courses = null;
+       
+        const ai_courses = {
+          //Sem1
+          IT111: {
+            name: "Electronics",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          MA111: {
+            name: "Mathematics1",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          HU111: {
+            name: "Technical Report Writing",
+            semester: 1,
+            prerequisites: [],
+            hours: 2,
+          },
+          HU113: {
+            name: "Human Rights",
+            semester: 1,
+            prerequisites: [],
+            hours: 2,
+          },
+          MA112: {
+            name: "Discrete Math",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          IT110: {
+            name: "Introduction to Computers",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          //Sem2
+          ST121: {
+            name: "Probability and Statistics-1",
+            semester: 2,
+            prerequisites: ["MA111"],
+            hours: 3,
+          },
+          HU112: {
+            name: "Creative and Scientific Thinking",
+            semester: 2,
+            prerequisites: [],
+            hours: 2,
+          },
+          MA113: {
+            name: "Mathematics-2",
+            semester: 2,
+            prerequisites: ["MA111"],
+            hours: 3,
+          },
+          HU101: {
+            name: "Micro Economics",
+            semester: 2,
+            prerequisites: [],
+            hours: 2,
+          },
+          IT113: {
+            name: "Logic Design",
+            semester: 2,
+            prerequisites: ["IT111"],
+            hours: 3,
+          },
+          IT114: {
+            name: "Programming Techniques",
+            semester: 2,
+            prerequisites: ["IT110"],
+            hours: 3,
+          },
+
+          // Second Year
+          //Sem3
+          IT215: {
+            name: "Object Oriented Programing",
+            semester: 3,
+            prerequisites: ["IT114"],
+            hours: 3,
+          },
+          DS211: {
+            name: "Introduction to Database systems",
+            semester: 3,
+            prerequisites: ["IT114"],
+            hours: 3,
+          },
+          MA214: {
+            name: "Mathematics-3 ",
+            semester: 3,
+            prerequisites: ["MA113"],
+            hours: 3,
+          },
+          IT231: {
+            name: "Computer Networks Technology",
+            semester: 3,
+            prerequisites: ["IT110"],
+            hours: 3,
+          },
+          ST222: {
+            name: "Probability and Statistics-2",
+            semester: 3,
+            prerequisites: ["ST121"],
+            hours: 3,
+          },
+          CS240: {
+            name: "Introduction to Software Engineering",
+            semester: 3,
+            prerequisites: ["IT114"],
+            hours: 3,
+          },
+
+          //Sem 4
+          IT217: {
+            name: "Introduction to Operation Research",
+            semester: 4,
+            prerequisites: ["ST121", "IT114"],
+            hours: 3,
+          },
+          IT216: {
+            name: "Data Structure",
+            semester: 4,
+            prerequisites: ["IT215"],
+            hours: 3,
+          },
+          AI321: {
+            name: "Machine Learning Fundamentals",
+            semester: 4,
+            prerequisites: ["MA214", "ST222"],
+            hours: 3,
+          },
+          IT230: {
+            name: "Web Technology",
+            semester: 4,
+            prerequisites: ["IT215"],
+            hours: 3,
+          },
+          HU427: {
+            name: "Entrepreneurship",
+            semester: 4,
+            prerequisites: [],
+            hours: 2,
+          },
+
+          LB211: {
+            name: "Networking Fundamentals lab",
+            semester: 4,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+
+          //Third year
+
+          AI341: {
+            name: "Computer Vision",
+            semester: 5,
+            prerequisites: ["IT215"],
+            hours: 3,
+          },
+          AI311: {
+            name: "Artificial intelligence",
+            semester: 5,
+            prerequisites: ["IT216"],
+            hours: 3,
+          },
+          CS319: {
+            name: "Operating Systems",
+            semester: 5,
+            prerequisites: ["IT216"],
+            hours: 3,
+          },
+          AI213: {
+            name: "Computational mathematics for learning and data analysis",
+            semester: 5,
+            prerequisites: ["MA214", "ST222"],
+            hours: 3,
+          },
+          IT318: {
+            name: "Computer Organization",
+            semester: 5,
+            prerequisites: ["IT113", "IT216"],
+            hours: 3,
+          },
+          IT341: {
+            name: "Algorithms analysis and Design",
+            semester: 5,
+            prerequisites: ["IT216"],
+            hours: 3,
+          },
+
+          //Sem 6
+
+          AI331: {
+            name: "Reinforcement and Deep Learning",
+            semester: 6,
+            prerequisites: ["AI321"],
+            hours: 3,
+          },
+          AI342: {
+            name: "Natural Languages Processing",
+            semester: 6,
+            prerequisites: ["AI321"],
+            hours: 3,
+          },
+          AI343: {
+            name: "AI Systems Design and Implementation",
+            semester: 6,
+            prerequisites: ["AI321"],
+            hours: 3,
+          },
+          AI351: {
+            name: "Intelligent Autonomous Robotics",
+            semester: 6,
+            prerequisites: ["IT113"],
+            hours: 3,
+          },
+          AI361: {
+            name: "Big Data",
+            semester: 6,
+            prerequisites: ["AI213"],
+            hours: 3,
+          },
+
+          // Fourth year
+
+          AI41X: {
+            name: "Image Processing",
+            semester: 7,
+            prerequisites: [],
+            hours: 3,
+          },
+          AI48X: {
+            name: "Bioinformatics Systems",
+            semester: 7,
+            prerequisites: [],
+            hours: 3,
+          },
+          AI4X1: {
+            name: "Artificial intelligence for Cybersecurity",
+            semester: 7,
+            prerequisites: [],
+            hours: 3,
+          },
+          AI212: {
+            name: "Reasoning and Knowledge Representation",
+            semester: 7,
+            prerequisites: ["MA214", "ST222"],
+            hours: 3,
+          },
+          LB496: {
+            name: "Advanced Machine Learning lab",
+            semester: 7,
+            prerequisites: [],
+            hours: 3,
+          },
+          PC401: {
+            name: "Graduation Project",
+            semester: 7,
+            prerequisites: [],
+            hours: 3,
+          },
+
+          // Sem 8
+
+          AI43X: {
+            name: "Elective 4",
+            semester: 8,
+            prerequisites: [],
+            hours: 3,
+          },
+          AI46X: {
+            name: "Elective 5",
+            semester: 8,
+            prerequisites: [],
+            hours: 3,
+          },
+          LB497: {
+            name: "AI Cloud Services lab",
+            semester: 8,
+            prerequisites: [],
+            hours: 3,
+          },
+          HU402: {
+            name: "Fundamental of Management",
+            semester: 8,
+            prerequisites: [],
+            hours: 3,
+          },
+          LB431: {
+            name: "Selected labs in AI ",
+            semester: 8,
+            prerequisites: ["AI311"],
+            hours: 3,
+          },
+          PC402: {
+            name: "Graduation Project",
+            semester: 8,
+            prerequisites: [],
+            hours: 3,
+          },
+        };
+
+        const it_courses = {
+          //Sem1
+          IT111: {
+            name: "Electronics",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          MA111: {
+            name: "Mathematics1",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          HU111: {
+            name: "Technical Report Writing",
+            semester: 1,
+            prerequisites: [],
+            hours: 2,
+          },
+          HU413: {
+            name: "Human Rights",
+            semester: 1,
+            prerequisites: [],
+            hours: 2,
+          },
+          MA112: {
+            name: "Discrete Math",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          IT110: {
+            name: "Introduction to Computers",
+            semester: 1,
+            prerequisites: [],
+            hours: 3,
+          },
+          //Sem2
+          ST121: {
+            name: "Probability and Statistics-1",
+            semester: 2,
+            prerequisites: ["MA111"],
+            hours: 3,
+          },
+          HU112: {
+            name: "Creative and Scientific Thinking",
+            semester: 2,
+            prerequisites: [],
+            hours: 2,
+          },
+          MA113: {
+            name: "Mathematics-2",
+            semester: 2,
+            prerequisites: ["MA111"],
+            hours: 3,
+          },
+          HU101: {
+            name: "Micro Economics",
+            semester: 2,
+            prerequisites: [],
+            hours: 2,
+          },
+          IT113: {
+            name: "Logic Design",
+            semester: 2,
+            prerequisites: ["IT111"],
+            hours: 3,
+          },
+          CS112: {
+            name: "Programming Language",
+            semester: 2,
+            prerequisites: ["IT110"],
+            hours: 3,
+          },
+
+          // Second Year
+          //Sem3
+          CS215: {
+            name: "Object Oriented Programing",
+            semester: 3,
+            prerequisites: ["CS112"],
+            hours: 3,
+          },
+          DS211: {
+            name: "Introduction to Database systems",
+            semester: 3,
+            prerequisites: ["CS112"],
+            hours: 3,
+          },
+          MA214: {
+            name: "Mathematics-3 ",
+            semester: 3,
+            prerequisites: ["MA113"],
+            hours: 3,
+          },
+          IT231: {
+            name: "Computer Networks Technology",
+            semester: 3,
+            prerequisites: ["IT110"],
+            hours: 3,
+          },
+          ST222: {
+            name: "Probability and Statistics-2",
+            semester: 3,
+            prerequisites: ["ST121"],
+            hours: 3,
+          },
+          CS240: {
+            name: "Introduction to Software Engineering",
+            semester: 3,
+            prerequisites: ["CS112"],
+            hours: 3,
+          },
+          //Sem4
+          IT217: {
+            name: "Introduction to Operation Research",
+            semester: 4,
+            prerequisites: ["ST121", "CS112"],
+            hours: 3,
+          },
+          CS216: {
+            name: "Data Structure",
+            semester: 4,
+            prerequisites: ["CS215"],
+            hours: 3,
+          },
+          AI321: {
+            name: "Machine Learning Fundamentals",
+            semester: 4,
+            prerequisites: ["MA214" , "ST222"],
+            hours: 3,
+          },
+          IT230: {
+            name: "Web Technology",
+            semester: 4,
+            prerequisites: ["CS215"],
+            hours: 3,
+          },
+          HU427: {
+            name: "Entrepreneurship",
+            semester: 4,
+            prerequisites: [],
+            hours: 2,
+          },
+          LB211: {
+            name: "Networking Fundamentals lab",
+            semester: 4,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+
+          // Third year
+          //Sem  5
+          LB312: {
+            name: "Network Routing and Switching-Lab",
+            semester: 5,
+            prerequisites: ["LB211"],
+            hours: 3,
+          },
+          AI311: {
+            name: "Artificial intelligence",
+            semester: 5,
+            prerequisites: ["CS216"],
+            hours: 3,
+          },
+          CS319: {
+            name: "Operating Systems",
+            semester: 5,
+            prerequisites: ["CS216"],
+            hours: 3,
+          },
+          IT212: {
+            name: "Digital Signal Processing",
+            semester: 5,
+            prerequisites: ["MA214"],
+            hours: 3,
+          },
+          CS318: {
+            name: "Computer Organization",
+            semester: 5,
+            prerequisites: ["IT113", "CS216"],
+            hours: 3,
+          },
+          CS341: {
+            name: "Algorithms analysis and Design",
+            semester: 5,
+            prerequisites: ["CS216"],
+            hours: 3,
+          },
+
+          // Sem 6
+          IT322: {
+            name: "Pattern Recognition",
+            semester: 6,
+            prerequisites: ["IT212" , "ST222"],
+            hours: 3,
+          },
+          IT333: {
+            name: "Information Computer Networks Security",
+            semester: 6,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+          AI448: {
+            name: "op-Natural Language Processing",
+            semester: 6,
+            prerequisites: ["AI321"],
+            hours: 3,
+          },
+          CS344: {
+            name: "Advanced Software Engineering",
+            semester: 6,
+            prerequisites: ["CS240"],
+            hours: 3,
+          },
+          IT343: {
+            name: "Microcontroller",
+            semester: 6,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+          LB313: {
+            name: "Ethical Hacking-lab",
+            semester: 6,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+
+          //Fourth year
+          // Sem 7
+
+          LB421: {
+            name: "Selected labs in Software Engineering",
+            semester: 7,
+            prerequisites: ["CS341", "CS344"],
+            hours: 2,
+          },
+          IT423: {
+            name: "Embedded Systems",
+            semester: 7,
+            prerequisites: ["IT343"],
+            hours: 3,
+          },
+          IT221: {
+            name: "Computer Graphics",
+            semester: 7,
+            prerequisites: ["CS215"],
+            hours: 3,
+          },
+          IT434: {
+            name: "Advanced Computer Networks",
+            semester: 7,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+          PC401: {
+            name: "Project (1)",
+            semester: 7,
+            prerequisites: [],
+            hours: 3,
+          },
+          IT438: {
+            name: "Communication Technology",
+            semester: 7,
+            prerequisites: ["IT231"],
+            hours: 3,
+          },
+          // Sem 8
+          IT436:{
+            name: "Cloud Computing Networking",
+            semester: 8,
+            prerequisites: ["IT434"],
+            hours: 3,
+          },
+          AI435: {
+            name: "Semantic Web and ontology",
+            semester: 8,
+            prerequisites: ["AI311", "IT230"],
+            hours: 3,
+          },
+          IT439: {
+            name: "Wireless and Mobile Networks",
+            semester: 8,
+            prerequisites: ["IT434"],
+            hours: 3,
+          },
+          HU402: {
+            name: "Fundamental of Management",
+            semester: 8,
+            prerequisites: [],
+            hours: 2,
+          },
+          PC402: {
+            name: "Project (2)",
+            semester: 8,
+            prerequisites: ["PC401"],
+            hours: 3,
+          },
+          LB431: {
+            name: "Selected labs in AI",
+            semester: 8,
+            prerequisites: ["AI311"],
+            hours: 2,
+          },
+        };
+
+        function populateCourses(cs) {
+          let coursesTable = document.querySelector("#courses_table");
+          coursesTable.innerHTML = "";
+          courses = cs;
+          Object.keys(courses).forEach(function (c) {
+            let key = c;
+            let course = courses[c];
+            addCourse(key, course);
+            var prerequisites = courses[c].prerequisites;
+            for (var pre of prerequisites) {
+              if (!courses[pre].nextCourses) {
+                courses[pre].nextCourses = [];
+              }
+              courses[pre].nextCourses.push(c);
+            }
+          });
+          selected = [];
+          $(".course").click(function () {
+            var code = this.id;
+            if (!document.querySelector("#selectMulti").checked) {
+              //multiple course selection is disabled
+              selected = [code];
+              $(".course").removeClass("prev");
+              $(".course").removeClass("direct");
+              $(".course").removeClass("selected");
+              $(".course").removeClass("next");
+              markDependency(code, 0);
+            } else {
+              if (selected.indexOf(code) > -1) {
+                //selected course; remove it
+                unselect(code);
+              } else {
+                select(code);
+              }
+            }
+            markNextCourses();
+            showSelected();
+          });
+        }
+        populateCourses(it_courses);
+
+        var selected = [];
+
+        $("#selectMulti").click(function () {
+          selected = [];
+          $(".course").removeClass("prev");
+          $(".course").removeClass("direct");
+          $(".course").removeClass("selected");
+          $(".course").removeClass("next");
+          showSelected();
+          if (this.checked) {
+            $("#legend tr:nth-child(2), #legend tr:nth-child(3)").hide();
+          } else {
+            $("#legend tr:nth-child(2), #legend tr:nth-child(3)").show();
+          }
+        });
+
+        function select(code) {
+          selected.push(code);
+          $("#" + code).addClass("selected");
+          for (var i = 0; i < courses[code].prerequisites.length; i++) {
+            var pre = courses[code].prerequisites[i];
+            if (selected.indexOf(pre) == -1) {
+              select(pre);
+            }
+          }
+        }
+
+        function unselect(code) {
+          selected.splice(selected.indexOf(code), 1);
+          $("#" + code).removeClass("selected");
+
+          if (!courses[code].nextCourses) return;
+
+          for (var i = 0; i < courses[code].nextCourses.length; i++) {
+            var nxt = courses[code].nextCourses[i];
+            if (selected.indexOf(nxt) > -1) {
+              unselect(nxt);
+            }
+          }
+        }
+
+        function showSelected() {
+          var credits = 0;
+          for (var c of selected) {
+            credits += courses[c].hours;
+          }
+
+          //$("#div_sel").html("Selected credit hours: " + credits);
+        }
+
+        function markDependency(start, level) {
+          switch (level) {
+            case 0:
+              $("#" + start).addClass("selected");
+              break;
+            case 1:
+              $("#" + start).addClass("direct");
+              break;
+            default:
+              $("#" + start).addClass("prev");
+              break;
+          }
+
+          for (var dep of courses[start].prerequisites) {
+            markDependency(dep, level + 1);
+          }
+        }
+
+        function markNextCourses() {
+          $(".course").removeClass("next");
+          for (var s of selected) {
+            if (!courses[s].nextCourses) continue;
+            for (var next of courses[s].nextCourses) {
+              if (selected.indexOf(next) == -1) $("#" + next).addClass("next");
+            }
+          }
+        }
+
+        function addCourse(id, course) {
+          let semesterRow = document.querySelector(
+            `#semester-${course.semester}`
+          );
+          if (semesterRow == null) {
+            let coursesTable = document.querySelector("#courses_table");
+            semesterRow = document.createElement("tr");
+            semesterRow.id = `semester-${course.semester}`;
+            let td = document.createElement("td");
+            td.className = "header";
+            td.textContent = `Semester ${course.semester}`;
+            semesterRow.appendChild(td);
+            coursesTable.appendChild(semesterRow);
+          }
+          course_td = document.createElement("td");
+          course_td.setAttribute("id", id);
+          course_td.className = "course";
+          course_td.textContent = course.name;
+          semesterRow.appendChild(course_td);
+        }
+
+        $(".program").click((ev) => {
+          let it = document.querySelector("#it");
+          let ai = document.querySelector("#ai");
+        
+          it.classList.remove("active");
+          ai.classList.remove("active");
+         
+
+          ev.target.classList.add("active");
+
+          if (ev.target.id === "it") {
+            console.log("it selected");
+            populateCourses(it_courses);
+          } else if (ev.target.id === "ai") {
+            console.log("ai selected");
+            populateCourses(ai_courses);
+          } 
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h2 style="position: fixted; top: 0px">
+      New Regulation -( <span id="it" class="program active">IT</span> )- (
+      <span id="ai" class="program">AI</span>) Courses
+    </h2>
+    <table id="courses_table">
+      
+    </table>
+    <br />
+
+    <table id="legend">
+      <tr>
+        <td class="selected" style="width: 30px"></td>
+        <td>Selected courses</td>
+      </tr>
+      <tr>
+        <td class="direct" style="width: 30px"></td>
+        <td>Direct prerequisite</td>
+      </tr>
+      <tr>
+        <td class="prev" style="width: 30px"></td>
+        <td>Indirect prerequisite</td>
+      </tr>
+      <tr>
+        <td class="next" style="width: 30px"></td>
+        <td>Next courses</td>
+      </tr>
+    </table>
+    <div id="div_sel"></div>
+    <label class="switch">
+      <input id="selectMulti" type="checkbox" />
+      <span class="slider"></span>
+    </label>
+    Select multiple courses
+  </body>
+</html>
+
+ 
