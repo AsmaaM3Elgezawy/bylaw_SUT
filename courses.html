@@ -437,81 +437,80 @@
             prerequisites: [],
             hours: 4,
           },
-          MA111: {
-            name: "Mathematics1",
-            semester: 1,
-            prerequisites: [],
-            hours: 3,
-          },
-          HU111: {
-            name: "Technical Report Writing",
+          HUM111: {
+            name: "English Language I",
             semester: 1,
             prerequisites: [],
             hours: 2,
           },
-          HU413: {
-            name: "Human Rights",
+          HUM121: {
+            name: "Principles of Law, Human Rights & Ethics",
             semester: 1,
             prerequisites: [],
             hours: 2,
           },
-          MA112: {
-            name: "Discrete Math",
+          GEN111: {
+            name: "Applied Mathematics I",
             semester: 1,
             prerequisites: [],
-            hours: 3,
+            hours: 4,
           },
-          IT110: {
-            name: "Introduction to Computers",
+          EPT111: {
+            name: "Computer Aided Engineering Drawing",
             semester: 1,
             prerequisites: [],
             hours: 3,
           },
           //Sem2
-          ST121: {
-            name: "Probability and Statistics-1",
-            semester: 2,
-            prerequisites: ["MA111"],
-            hours: 3,
-          },
-          HU112: {
-            name: "Creative and Scientific Thinking",
+          HUMUE1: {
+            name: "University Elective I",
             semester: 2,
             prerequisites: [],
             hours: 2,
           },
-          MA113: {
-            name: "Mathematics-2",
-            semester: 2,
-            prerequisites: ["MA111"],
-            hours: 3,
-          },
-          HU101: {
-            name: "Micro Economics",
+          GEN112: {
+            name: "Applied Discrete Mathematics",
             semester: 2,
             prerequisites: [],
-            hours: 2,
-          },
-          IT113: {
-            name: "Logic Design",
-            semester: 2,
-            prerequisites: ["IT111"],
             hours: 3,
           },
-          CS112: {
-            name: "Programming Language",
+          GEN122: {
+            name: "Principles of Physics",
             semester: 2,
-            prerequisites: ["IT110"],
+            prerequisites: [],
             hours: 3,
           },
-
+          CET112: {
+            name: "Object Oriented Programming",
+            semester: 2,
+            prerequisites: ["CET111"],
+            hours: 4,
+          },
+          CET161: {
+            name: "Network Basics",
+            semester: 2,
+            prerequisites: [],
+            hours: 3,
+          },
+          CET141: {
+            name: "Database Management Systems",
+            semester: 2,
+            prerequisites: [],
+            hours: 3,
+          },
+          CET191: {
+            name: "CET Internship I",
+            semester: 2,
+            prerequisites: [],
+            hours: 3,
+          },
           // Second Year
           //Sem3
-          CS215: {
-            name: "Object Oriented Programing",
+          HUM231: {
+            name: "Presentation Skills and Technical Writing",
             semester: 3,
-            prerequisites: ["CS112"],
-            hours: 3,
+            prerequisites: ["HUM111"],
+            hours: 2,
           },
           DS211: {
             name: "Introduction to Database systems",
@@ -519,68 +518,68 @@
             prerequisites: ["CS112"],
             hours: 3,
           },
-          MA214: {
-            name: "Mathematics-3 ",
+          CET211: {
+            name: "Data Structures & Algorithms",
             semester: 3,
-            prerequisites: ["MA113"],
-            hours: 3,
+            prerequisites: ["CET112"],
+            hours: 4,
           },
-          IT231: {
-            name: "Computer Networks Technology",
+          CET212: {
+            name: "Operating Systems",
             semester: 3,
-            prerequisites: ["IT110"],
-            hours: 3,
-          },
-          ST222: {
-            name: "Probability and Statistics-2",
-            semester: 3,
-            prerequisites: ["ST121"],
-            hours: 3,
-          },
-          CS240: {
-            name: "Introduction to Software Engineering",
-            semester: 3,
-            prerequisites: ["CS112"],
-            hours: 3,
-          },
-          //Sem4
-          IT217: {
-            name: "Introduction to Operation Research",
-            semester: 4,
-            prerequisites: ["ST121", "CS112"],
-            hours: 3,
-          },
-          CS216: {
-            name: "Data Structure",
-            semester: 4,
-            prerequisites: ["CS215"],
-            hours: 3,
-          },
-          AI321: {
-            name: "Machine Learning Fundamentals",
-            semester: 4,
-            prerequisites: ["MA214" , "ST222"],
-            hours: 3,
-          },
-          IT230: {
-            name: "Web Technology",
-            semester: 4,
-            prerequisites: ["CS215"],
-            hours: 3,
-          },
-          HU427: {
-            name: "Entrepreneurship",
-            semester: 4,
             prerequisites: [],
+            hours: 3,
+          },
+          CET213: {
+            name: "Software Engineering",
+            semester: 3,
+            prerequisites: ["CET112"],
+            hours: 3,
+          },
+          CET214: {
+            name: "Web Programming",
+            semester: 3,
+            prerequisites: ["CET112"],
+            hours: 3,
+          },
+          CET291: {
+            name: "CET Project I",
+            semester: 3,
+            prerequisites: ["CET112"],
             hours: 2,
           },
-          LB211: {
-            name: "Networking Fundamentals lab",
+          //Sem4
+          CET215: {
+            name: "Mobile Application Development 4",
             semester: 4,
-            prerequisites: ["IT231"],
+            prerequisites: ["CET112"],
             hours: 3,
           },
-
+          CET217: {
+            name: "Software Testing and Quality Assurance",
+            semester: 4,
+            prerequisites: ["CET213"],
+            hours: 3,
+          },
+          CET218: {
+            name: "Advanced Web Programming",
+            semester: 4,
+            prerequisites: ["CET214"],
+            hours: 3,
+          },
+          CET219: {
+            name: "UI/UX Principles",
+            semester: 4,
+            prerequisites: [],
+            hours: 3,
+          },
+          CET292: {
+            name: "CET Project II",
+            semester: 4,
+            prerequisites: ["CET291"],
+            hours: 4,
+          },
+          
           // Third year
           //Sem  5
           LB312: {
@@ -940,6 +939,7 @@
 </html>
 
  
+
 
 
 
