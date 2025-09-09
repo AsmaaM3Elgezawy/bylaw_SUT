@@ -208,10 +208,10 @@
             hours: 2,
           },
           
-          CET211: {
-            name: "Data Structures & Algorithms",
+          CET261: {
+            name: "Advanced Computer Networks",
             semester: 3,
-            prerequisites: ["CET112"],
+            prerequisites: ["CET161"],
             hours: 4,
           },
           CET212: {
@@ -220,10 +220,10 @@
             prerequisites: [],
             hours: 3,
           },
-          CET213: {
-            name: "Software Engineering",
+          CET231: {
+            name: "Cyber & Information Security",
             semester: 3,
-            prerequisites: ["CET112"],
+            prerequisites: ["CET161"],
             hours: 3,
           },
           CET214: {
@@ -239,28 +239,28 @@
             hours: 2,
           },
           //Sem4
-          CET215: {
-            name: "Mobile Application Development 4",
+          CET216: {
+            name: "Linux and Shell Programming",
             semester: 4,
-            prerequisites: ["CET112"],
+            prerequisites: ["CET212"],
             hours: 3,
           },
-          CET217: {
-            name: "Software Testing and Quality Assurance",
+          CET232: {
+            name: "Web and Security Technologies",
             semester: 4,
-            prerequisites: ["CET213"],
+            prerequisites: ["CET214","CET231"],
             hours: 3,
           },
-          CET218: {
-            name: "Advanced Web Programming",
+          CET262: {
+            name: "Network Operation and Managment",
             semester: 4,
-            prerequisites: ["CET214"],
+            prerequisites: ["CET261"],
             hours: 3,
           },
-          CET219: {
-            name: "UI/UX Principles",
+          CET233: {
+            name: "Digital Forensics Fundamental",
             semester: 4,
-            prerequisites: [],
+            prerequisites: ["CET231"],
             hours: 3,
           },
           CET292: {
@@ -284,8 +284,8 @@
             prerequisites: ["GEN111"],
             hours: 3,
           },
-          CET231: {
-            name: "Cyber & Information Security",
+          CET321: {
+            name: "Internet of Things",
             semester: 5,
             prerequisites: ["CET111"],
             hours: 3,
@@ -296,10 +296,16 @@
             prerequisites: ["CET212","CET161"],
             hours: 3,
           },
-          CET311: {
-            name: "Design & Analysis of Algorithms",
+          CET331: {
+            name: "Security Policy, Threats & Risk Management",
             semester: 5,
-            prerequisites: ["CET211"],
+            prerequisites: ["CET231"],
+            hours: 3,
+          },
+          CET332: {
+            name: "Penetration Testing & Ethical Hacking",
+            semester: 5,
+            prerequisites: ["CET232"],
             hours: 3,
           },
           
@@ -317,22 +323,22 @@
             prerequisites: ["CET111"],
             hours: 3,
           },
-          CET312: {
-            name: "ERP Systems",
+          CET333: {
+            name: "Advanced Digital Forensics",
             semester: 6,
-            prerequisites: ["CET112"],
+            prerequisites: ["CET233"],
             hours: 3,
           },
-          CET313: {
-            name: "Theory of Computation & Compiler Design",
+          CET334: {
+            name: "Cryptographic Algorithms & Protocols",
             semester: 6,
-            prerequisites: [],
+            prerequisites: ["GEN111"],
             hours: 4,
           },
-          CET352: {
-            name: "Image Processing and Computer Vision",
+          CET361: {
+            name: "Routing & Switching",
             semester: 6,
-            prerequisites: ["CET111"],
+            prerequisites: ["CET261"],
             hours: 3,
           },
           CET392: {
@@ -354,17 +360,17 @@
           CET221: {
             name: "Computer Organization",
             semester: 7,
-            prerequisites: [],
+            prerequisites: ["CET121"],
             hours: 3,
           },
-          CET411: {
-            name: "Game Programming",
+          CET431: {
+            name: "Software Security",
             semester: 7,
             prerequisites: ["CET112"],
             hours: 3,
           },
-          CET3E1: {
-            name: "CS Major Elective I",
+          CET3E3: {
+            name: "NS Major Elective I",
             semester: 7,
             prerequisites: [],
             hours: 3,
@@ -377,20 +383,8 @@
           },
           
           // Sem 8
-          IT436:{
-            name: "CS Major Elective II",
-            semester: 8,
-            prerequisites: [],
-            hours: 3,
-          },
-          CET414: {
-            name: "Parallel Programming",
-            semester: 8,
-            prerequisites: ["CET211"],
-            hours: 3,
-          },
-          CET415: {
-            name: "Digital Marketing Technologies",
+          CET4E3:{
+            name: "NS Major Elective II",
             semester: 8,
             prerequisites: [],
             hours: 3,
@@ -401,7 +395,21 @@
             prerequisites: ["CET214"],
             hours: 3,
           },
-          CET492: {
+          CET435: {
+            name: "Network and Mobile Security",
+            semester: 8,
+            prerequisites: ["CET161"],
+            hours: 3,
+          },
+          
+          CET436: {
+            name: "Information Security Management",
+            semester: 8,
+            prerequisites: ["CET161"],
+            hours: 4,
+          },
+
+         CET492: {
             name: "CET Project IV",
             semester: 8,
             prerequisites: ["CET491"],
@@ -526,7 +534,7 @@
           },
           //Sem4
           CET215: {
-            name: "Mobile Application Development 4",
+            name: "Mobile Application Development",
             semester: 4,
             prerequisites: ["CET112"],
             hours: 3,
@@ -898,6 +906,7 @@
 </html>
 
  
+
 
 
 
