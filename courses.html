@@ -838,10 +838,10 @@
 
         $(".program").click((ev) => {
           let it = document.querySelector("#it");
-          let ai = document.querySelector("#ai");
+          let cyber = document.querySelector("#cyber");
         
           it.classList.remove("active");
-          ai.classList.remove("active");
+          cyber.classList.remove("active");
          
 
           ev.target.classList.add("active");
@@ -849,9 +849,9 @@
           if (ev.target.id === "CS") {
             console.log("it selected");
             populateCourses(CS_courses);
-          } else if (ev.target.id === "ai") {
-            console.log("ai selected");
-            populateCourses(ai_courses);
+          } else if (ev.target.id === "cyber") {
+            console.log("cyber selected");
+            populateCourses(cyber_courses);
           } 
         });
       });
@@ -898,6 +898,7 @@
 </html>
 
  
+
 
 
 
